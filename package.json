@@ -1,0 +1,23 @@
+{
+  "name": "saptrac",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "npm run build --workspace=frontend && node server.js",
+    "build": "npm run build --workspace=frontend && node -e \"const fs=require('fs'); if (fs.existsSync('frontend/dist')) fs.cpSync('frontend/dist', 'dist', {recursive: true});\"",
+    "start": "node server.js",
+    "lint": "npm run lint --workspace=frontend"
+  },
+  "dependencies": {
+    "jimp": "^1.6.1",
+    "prop-types": "^15.8.1",
+    "qrcode": "^1.5.4",
+    "react-router-dom": "^7.16.0",
+    "recharts": "^3.10.0",
+    "socket.io": "^4.8.3"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "SaPtraC",
+  "description": "Smart Public Transport Coordination and Fleet Management System",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

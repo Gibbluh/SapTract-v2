@@ -1,0 +1,101 @@
+241:      {/* HEADER BAR */}
+242-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex flex-col md:flex-row md:items-center justify-end gap-4 z-10 shrink-0 sticky top-0">
+243-        <div className="flex flex-col sm:flex-row items-center gap-3 flex-1">
+244-                    {/* Status Dropdown Filter */}
+245-          <div className="relative">
+246-            <button
+247-              onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}
+248-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+249-            >
+250-              Status: {statusFilter}
+251-              <ChevronDown className="w-4 h-4 text-gray-400 ml-1" />
+252-            </button>
+253-            
+254-            {statusDropdownOpen && (
+255-              <>
+256-                <div className="fixed inset-0 z-40" onClick={() => setStatusDropdownOpen(false)}></div>
+257-                <div className="absolute top-full mt-2 left-0 sm:right-0 sm:left-auto w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1 flex flex-col">
+258-                  <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
+259-                    Filter by Status
+260-                  </div>
+261-                  {['All', 'Available', 'In Maintenance', 'Out of Service'].map(status => {
+262-                    const count = status === 'All' ? unitsList.length : unitsList.filter(u => u.status === status).length;
+263-                    const isActive = statusFilter === status;
+264-                    
+265-                    let dotColor = 'bg-gray-400';
+266-                    if (status === 'Available') dotColor = 'bg-emerald-500';
+267-                    if (status === 'In Maintenance') dotColor = 'bg-amber-500';
+268-                    if (status === 'Out of Service') dotColor = 'bg-red-500';
+269-
+270-                    return (
+271-                      <button
+272-                        key={status}
+273-                        onClick={() => { setStatusFilter(status); setStatusDropdownOpen(false); }}
+274-                        className={`flex items-center justify-between w-full px-4 py-2 text-sm text-left transition-colors ${isActive ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+275-                      >
+276-                        <div className="flex items-center gap-2">
+277-                          {status !== 'All' && <div className={`w-2 h-2 rounded-full ${dotColor}`}></div>}
+278-                          {status === 'All' ? 'All Statuses' : status}
+279-                        </div>
+280-                        <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{count}</span>
+281-                      </button>
+282-                    )
+283-                  })}
+284-                </div>
+285-              </>
+286-            )}
+287-          </div>
+288-
+289-          {/* Route Dropdown Filter */}
+290-          <div className="relative">
+291-            <button
+292-              onClick={() => setRouteDropdownOpen(!routeDropdownOpen)}
+293-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+294-            >
+295-              <Filter className="w-4 h-4 text-gray-400" />
+296-              Route: {routeFilter}
+297-              <ChevronDown className="w-4 h-4 text-gray-400 ml-1" />
+298-            </button>
+299-            
+300-            {routeDropdownOpen && (
+301-              <>
+302-                <div className="fixed inset-0 z-40" onClick={() => setRouteDropdownOpen(false)}></div>
+303-                <div className="absolute top-full mt-2 left-0 sm:right-0 sm:left-auto w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1 flex flex-col">
+304-                  <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
+305-                    Filter by Route
+306-                  </div>
+307-                  <button
+308-                    onClick={() => { setRouteFilter('All'); setRouteDropdownOpen(false); }}
+309-                    className={`flex items-center justify-between w-full px-4 py-2 text-sm text-left transition-colors ${routeFilter === 'All' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+310-                  >
+311-                    <span>All Units</span>
+312-                    <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{unitsList.length}</span>
+313-                  </button>
+314-                  {MOCK_ROUTES.map(route => {
+315-                    const count = unitsList.filter(u => u.route.toLowerCase() === route.name.toLowerCase()).length;
+316-                    const isActive = routeFilter === route.name;
+317-                    return (
+318-                      <button
+319-                        key={route.id}
+320-                        onClick={() => { setRouteFilter(route.name); setRouteDropdownOpen(false); }}
+321-                        className={`flex items-center justify-between w-full px-4 py-2 text-sm text-left transition-colors ${isActive ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+322-                      >
+323-                        <div className="flex items-center gap-2">
+324-                          <div className={`w-2 h-2 rounded-full ${
+325-                            route.color === 'blue' ? 'bg-blue-500' : 
+326-                            route.color === 'emerald' ? 'bg-emerald-500' :
+327-                            route.color === 'purple' ? 'bg-purple-500' :
+328-                            route.color === 'orange' ? 'bg-orange-500' :
+329-                            route.color === 'red' ? 'bg-red-500' : 'bg-gray-500'
+330-                          }`}></div>
+331-                          {route.name}
+332-                        </div>
+333-                        <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{count}</span>
+334-                      </button>
+335-                    )
+336-                  })}
+337-                  <div className="my-1 border-t border-gray-100"></div>
+338-                  <button
+339-                    onClick={() => { setRouteFilter('Unassigned'); setRouteDropdownOpen(false); }}
+340-                    className={`flex items-center justify-between w-full px-4 py-2 text-sm text-left transition-colors ${routeFilter === 'Unassigned' ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+341-                  >
